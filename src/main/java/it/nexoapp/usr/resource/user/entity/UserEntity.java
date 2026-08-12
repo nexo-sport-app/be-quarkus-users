@@ -28,9 +28,7 @@ public class UserEntity extends AuditEntity implements Serializable {
     private static final long serialVersionUID = 8177397516775487505L;
 
     /* identifiers */
-    /**
-     * Identifies the user entity uniquely.
-     */
+    /** Unique identifier of the user. */
     @Id
     @Column(
             name = "id",
@@ -40,6 +38,7 @@ public class UserEntity extends AuditEntity implements Serializable {
     )
     private UUID id;
 
+    /** User's first name. */
     @Column(
             name = "first_name",
             columnDefinition = "VARCHAR(40)",
@@ -47,12 +46,14 @@ public class UserEntity extends AuditEntity implements Serializable {
     )
     private String firstName;
 
+    /** User's middle name, if any. */
     @Column(
             name = "middle_name",
             columnDefinition = "VARCHAR(40)"
     )
     private String middleName;
 
+    /** User's last name. */
     @Column(
             name = "last_name",
             columnDefinition = "VARCHAR(40)",
@@ -60,12 +61,15 @@ public class UserEntity extends AuditEntity implements Serializable {
     )
     private String lastName;
 
+    /** User's gender. */
     @Column(
             name = "gender",
             columnDefinition = "VARCHAR(2)"
     )
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
+    /** User's fiscal code, unique across all users. */
     @Column(
             name = "tax_code",
             columnDefinition = "VARCHAR(20)",
@@ -73,6 +77,7 @@ public class UserEntity extends AuditEntity implements Serializable {
     )
     private String taxCode;
 
+    /** User's nationality. */
     @Column(
             name = "nationality",
             columnDefinition = "VARCHAR(20)",
@@ -80,16 +85,23 @@ public class UserEntity extends AuditEntity implements Serializable {
     )
     private String nationality;
 
+    /** User's date of birth. */
     @Column(
             name = "date_of_birth",
             columnDefinition = "DATE"
     )
     private LocalDate dateOfBirth;
 
+    /** User's place of birth. */
     @Column(
             name = "place_of_birth",
             columnDefinition = "VARCHAR(10)"
     )
     private String placeOfBirth;
+
+    /** Supported gender values. */
+    public enum Gender {
+        M, F, O
+    }
 
 }
