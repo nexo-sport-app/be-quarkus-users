@@ -5,6 +5,7 @@ import it.nexoapp.usr.resource.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -17,12 +18,11 @@ import java.util.UUID;
 @Table(name = "addresses")
 public class AddressEntity extends AuditEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 917822384733666966L;
 
     /* identifiers */
-    /**
-     * Identifies the user entity uniquely.
-     */
+    /** Unique identifier of the address. */
     @Id
     @Column(
             name = "id",
@@ -32,9 +32,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     )
     private UUID id;
 
-    /**
-     * Represents the association to the user entity.
-     */
+    /** Owner of this address. */
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -46,9 +44,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     private UserEntity user;
 
     /* address data */
-    /**
-     * Street name with the house number, free text.
-     */
+    /** Street name and house number. */
     @Column(
             name = "street",
             columnDefinition = "TEXT",
@@ -56,9 +52,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     )
     private String street;
 
-    /**
-     * City name, free text.
-     */
+    /** City name. */
     @Column(
             name = "city",
             columnDefinition = "VARCHAR(40)",
@@ -66,9 +60,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     )
     private String city;
 
-    /**
-     * Zipcode, should be a valid 6 digit code.
-     */
+    /** Postal code of the address. */
     @Column(
             name = "zip_code",
             columnDefinition = "VARCHAR(10)",
@@ -76,9 +68,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     )
     private String zipCode;
 
-    /**
-     * Province, represent by istat code.
-     */
+    /** Province, expressed as ISTAT code. */
     @Column(
             name = "province",
             columnDefinition = "VARCHAR(10)",
@@ -86,9 +76,7 @@ public class AddressEntity extends AuditEntity implements Serializable {
     )
     private String province;
 
-    /**
-     * State, represent by istat code.
-     */
+    /** State, expressed as ISTAT code. */
     @Column(
             name = "state",
             columnDefinition = "VARCHAR(10)",
