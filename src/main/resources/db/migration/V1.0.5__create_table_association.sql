@@ -1,0 +1,20 @@
+CREATE TABLE association (
+    id                UUID NOT NULL,
+    tenant_id         UUID NOT NULL,
+    name              VARCHAR(120) NOT NULL,
+    tax_code          VARCHAR(16) NOT NULL,
+    office_street     VARCHAR(60) NOT NULL,
+    office_zip_code   VARCHAR(10) NOT NULL,
+    office_city       VARCHAR(10) NOT NULL,
+    office_province   VARCHAR(10) NOT NULL,
+    office_state      VARCHAR(10) NOT NULL,
+    affiliation_body  VARCHAR(60),
+    affiliation_code  VARCHAR(40),
+    created_by        TEXT NOT NULL,
+    created_at        TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_by        TEXT NOT NULL,
+    updated_at        TIMESTAMPTZ DEFAULT now() NOT NULL,
+    CONSTRAINT association_pk PRIMARY KEY (id),
+    CONSTRAINT association_uq UNIQUE (tax_code),
+    CONSTRAINT association_tenant_ck CHECK (tenant_id = id)
+);
