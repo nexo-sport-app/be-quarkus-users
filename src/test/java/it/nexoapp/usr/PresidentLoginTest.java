@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -136,6 +137,61 @@ class PresidentLoginTest {
                 .createNativeQuery("SELECT count(*) FROM users.identity_link WHERE subject = :s")
                 .setParameter("s", STRANGER_SUBJECT).getSingleResult());
         assertEquals(0, links.intValue());
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * The linked President reads the configured association: the profile carries exactly the public fields and
+     * no audit column or tenant identifier.
+     */
+    @Test
+    void presidentReadsTheAssociationProfile() {
+        final String token = keycloak.getAccessToken("president", "password", "nexo-dev");
+
+        given().auth().oauth2(token)
+                .when().get("/association")
+                .then().statusCode(200)
+                .body("keySet()", containsInAnyOrder(
+                        "id", "name", "taxCode", "registeredOffice", "affiliationBody", "affiliationCode"))
+                .body("id", equalTo(ASSOCIATION_ID))
+                .body("name", equalTo("ASD Nexo Test"))
+                .body("taxCode", equalTo("97000000010"))
+                .body("registeredOffice.keySet()", containsInAnyOrder("street", "zipCode", "city", "province", "state"))
+                .body("registeredOffice.street", equalTo("Via Test 10"))
+                .body("registeredOffice.zipCode", equalTo("20100"))
+                .body("registeredOffice.city", equalTo("Milano"))
+                .body("registeredOffice.province", equalTo("MI"))
+                .body("registeredOffice.state", equalTo("IT"))
+                .body("affiliationBody", nullValue())
+                .body("affiliationCode", nullValue());
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * A stranger (valid token, no membership) is refused by the identity gate and nothing is linked for them.
+     */
+    @Test
+    void strangerCannotReadTheAssociation() {
+        final String token = keycloak.getAccessToken("stranger", "password", "nexo-dev");
+
+        given().auth().oauth2(token)
+                .when().get("/association")
+                .then().statusCode(403)
+                .body("code", equalTo("IDENTITY_NOT_LINKED"));
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * A call without any token is unauthorized.
+     */
+    @Test
+    void anonymousCannotReadTheAssociation() {
+        given()
+                .when().get("/association")
+                .then().statusCode(401);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
