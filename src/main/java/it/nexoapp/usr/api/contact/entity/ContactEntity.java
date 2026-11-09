@@ -1,9 +1,10 @@
 package it.nexoapp.usr.api.contact.entity;
 
-import it.nexoapp.common.hibernate.entity.AuditEntity;
+import it.nexoapp.common.tenant.TenantEntity;
 import it.nexoapp.usr.api.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "contacts")
-public class ContactEntity extends AuditEntity implements Serializable {
+public class ContactEntity extends TenantEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5484895399744587235L;
@@ -27,6 +28,8 @@ public class ContactEntity extends AuditEntity implements Serializable {
     /* identifiers */
     /** Unique identifier of the contact. */
     @Id
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     @Column(
             name = "id",
             columnDefinition = "UUID",

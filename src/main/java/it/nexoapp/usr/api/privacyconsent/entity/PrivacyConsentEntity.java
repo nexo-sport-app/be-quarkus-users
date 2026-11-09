@@ -1,9 +1,10 @@
 package it.nexoapp.usr.api.privacyconsent.entity;
 
-import it.nexoapp.common.hibernate.entity.AuditEntity;
+import it.nexoapp.common.tenant.TenantEntity;
 import it.nexoapp.usr.api.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,11 +22,11 @@ import java.util.UUID;
 @Table(
         name = "privacy_consent",
         uniqueConstraints = @UniqueConstraint(
-                name = "consent_uq",
-                columnNames = { "user_id", "code" }
+                name = "privacy_consent_uq",
+                columnNames = { "tenant_id", "user_id", "code" }
         )
 )
-public class PrivacyConsentEntity extends AuditEntity implements Serializable {
+public class PrivacyConsentEntity extends TenantEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2035203239465595406L;
@@ -33,6 +34,8 @@ public class PrivacyConsentEntity extends AuditEntity implements Serializable {
     /* identifiers */
     /** Unique identifier of the privacy consent. */
     @Id
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     @Column(
             name = "id",
             columnDefinition = "UUID",
@@ -55,7 +58,7 @@ public class PrivacyConsentEntity extends AuditEntity implements Serializable {
     /** Code identifying the type of privacy consent. */
     @Column(
             name = "code",
-            columnDefinition = "VARCHAR(20)",
+            columnDefinition = "VARCHAR(15)",
             nullable = false
     )
     private String code;

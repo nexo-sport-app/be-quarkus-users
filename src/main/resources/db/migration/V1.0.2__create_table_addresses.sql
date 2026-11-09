@@ -1,5 +1,6 @@
 CREATE TABLE addresses (
-    id          UUID DEFAULT uuid_generate_v4() NOT NULL,
+    id          UUID DEFAULT gen_random_uuid() NOT NULL,
+    tenant_id   UUID NOT NULL,
     user_id     UUID NOT NULL,
     street      TEXT NOT NULL,
     city        VARCHAR(40) NOT NULL,
@@ -13,4 +14,4 @@ CREATE TABLE addresses (
     CONSTRAINT addresses_pk PRIMARY KEY (id),
     CONSTRAINT addresses_users_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_addresses_user_id ON addresses(user_id);
+CREATE INDEX idx_addresses_tenant_id_user_id ON addresses(tenant_id, user_id);

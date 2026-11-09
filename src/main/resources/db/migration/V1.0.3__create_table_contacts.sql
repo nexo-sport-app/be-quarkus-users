@@ -1,5 +1,6 @@
 CREATE TABLE contacts (
-    id          UUID DEFAULT uuid_generate_v4() NOT NULL,
+    id          UUID DEFAULT gen_random_uuid() NOT NULL,
+    tenant_id   UUID NOT NULL,
     user_id     UUID NOT NULL,
     type        VARCHAR(15) NOT NULL,
     priority    VARCHAR(15) NOT NULL,
@@ -12,4 +13,4 @@ CREATE TABLE contacts (
     CONSTRAINT contacts_pk PRIMARY KEY (id),
     CONSTRAINT contacts_users_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_contacts_user_id ON contacts(user_id);
+CREATE INDEX idx_contacts_tenant_id_user_id ON contacts(tenant_id, user_id);

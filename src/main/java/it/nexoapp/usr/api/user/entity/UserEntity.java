@@ -1,8 +1,9 @@
 package it.nexoapp.usr.api.user.entity;
 
-import it.nexoapp.common.hibernate.entity.AuditEntity;
+import it.nexoapp.common.tenant.TenantEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,10 +23,10 @@ import java.util.UUID;
         name = "users",
         uniqueConstraints = @UniqueConstraint(
                 name = "users_uq",
-                columnNames = {"tax_code"}
+                columnNames = {"tenant_id", "tax_code"}
         )
 )
-public class UserEntity extends AuditEntity implements Serializable {
+public class UserEntity extends TenantEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 8177397516775487505L;
@@ -33,6 +34,8 @@ public class UserEntity extends AuditEntity implements Serializable {
     /* identifiers */
     /** Unique identifier of the user. */
     @Id
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.VERSION_7)
     @Column(
             name = "id",
             columnDefinition = "UUID",
@@ -67,12 +70,13 @@ public class UserEntity extends AuditEntity implements Serializable {
     /** User's gender. */
     @Column(
             name = "gender",
-            columnDefinition = "VARCHAR(2)"
+            columnDefinition = "VARCHAR(2)",
+            nullable = false
     )
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    /** User's fiscal code, unique across all users. */
+    /** User's fiscal code, unique within the association. */
     @Column(
             name = "tax_code",
             columnDefinition = "VARCHAR(20)",
@@ -83,7 +87,7 @@ public class UserEntity extends AuditEntity implements Serializable {
     /** User's nationality. */
     @Column(
             name = "nationality",
-            columnDefinition = "VARCHAR(20)",
+            columnDefinition = "VARCHAR(10)",
             nullable = false
     )
     private String nationality;
@@ -91,14 +95,16 @@ public class UserEntity extends AuditEntity implements Serializable {
     /** User's date of birth. */
     @Column(
             name = "date_of_birth",
-            columnDefinition = "DATE"
+            columnDefinition = "DATE",
+            nullable = false
     )
     private LocalDate dateOfBirth;
 
     /** User's place of birth. */
     @Column(
             name = "place_of_birth",
-            columnDefinition = "VARCHAR(10)"
+            columnDefinition = "VARCHAR(10)",
+            nullable = false
     )
     private String placeOfBirth;
 
