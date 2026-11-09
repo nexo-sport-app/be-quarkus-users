@@ -25,6 +25,11 @@
             <version>${it.nexo.common.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>it.nexoapp</groupId>
+            <artifactId>messaging</artifactId>
+        </dependency>
+
         <!-- microservice specific dependency -->
         <dependency>
             <groupId>io.quarkus</groupId>
