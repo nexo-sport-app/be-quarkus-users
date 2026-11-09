@@ -1,6 +1,6 @@
 CREATE TABLE privacy_consent (
     id          UUID DEFAULT gen_random_uuid() NOT NULL,
-    tenant_id   UUID NOT NULL,
+    tenant_id UUID NOT NULL,
     user_id     UUID NOT NULL,
     code        VARCHAR(15) NOT NULL,
     consent     BOOLEAN NOT NULL,

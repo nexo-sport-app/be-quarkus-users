@@ -1,6 +1,6 @@
 CREATE TABLE users (
     id UUID DEFAULT gen_random_uuid() NOT NULL,
-    tenant_id       UUID NOT NULL,
+    tenant_id UUID NOT NULL,
     first_name      VARCHAR(40) NOT NULL,
     middle_name     VARCHAR(40),
     last_name       VARCHAR(40) NOT NULL,
