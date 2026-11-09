@@ -1,4 +1,4 @@
-package it.nexoapp.usr.resource.user.entity;
+package it.nexoapp.usr.api.user.entity;
 
 import it.nexoapp.common.hibernate.entity.AuditEntity;
 import jakarta.persistence.*;
@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Persistent user record of the members area.
+ */
 @Getter
 @Setter
 @Builder

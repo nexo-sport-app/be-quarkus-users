@@ -1,7 +1,7 @@
-package it.nexoapp.usr.resource.address.entity;
+package it.nexoapp.usr.api.address.entity;
 
 import it.nexoapp.common.hibernate.entity.AuditEntity;
-import it.nexoapp.usr.resource.user.entity.UserEntity;
+import it.nexoapp.usr.api.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +9,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * Persistent address record of the members area.
+ */
 @Getter
 @Setter
 @Builder
